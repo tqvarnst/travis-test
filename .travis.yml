@@ -1,8 +1,6 @@
 env:
   global:
   - IMAGE_NAME=tqvarnst/ksink
-  - DOCKER_HUB_USER=tqvarnst
-  - secure: wKkSF7S51HiC/RxAVMAy2Ra5+A+wxrO6MFxGWqzcCMcmEFuaTGqsqbHrNRex6bkCS1EnAyJXipxCh7JbbgTrCkzv+SrbDoxRt1ngonRXuyYfnqAGJQXyMkYBiXnWC9c5yKUuTXWJmT9JHKYEqtu0rU4Sl8wI5onyCjbsG/TrppkR3BOGq7yAR3j+5iq97hdL6wOBHITGwPUzNCVw6BU0516kgPYtRpkGeY/Ri8+ccEtWAT4Jx3hsHrS030xR1jIrruZpT8BpmRgqV3Z+KYi/aEcIiIK9vclHyIazHZQbjJtswqHX/gPjq9O578A1JCB80j6u4f27i/QhOEyM5Mv51bYOUwTgTepCy+zo5odeS5b8tCbP3kJSPLAFPlmpDSwMRrsvDnkXb8/f+qGetMZcz3nxfow82QcweXHrK7G0Srrk8688hY3cSwOOmdjo8atuMRHns5VdQvlDOs8V9itiel1U/uVZj9eGD5kUVSIC08NsRjRG9Ran2B0ZAyBJ1jDT5R6LOFZWfloS7f/fxRjTioZ4UEM+pfaj0Sym5PLQ+MH4Ibg29oH/7DskCFKJsUNcTCLYos3F3bR3gK7bwZ3J0TjZinnyn1dx/neFuCMZ1EVOQc+gzky+tywEY3zORwZ4iWNNUjkKbCqJJfgYGwMJn9JW/BbYIdmfF6st101xW0M=
 cache:
   directories:
   - "$HOME/.m2"
@@ -17,10 +15,8 @@ before_install:
 - curl -sL -o $HOME/s2i.tar.gz https://github.com/openshift/source-to-image/releases/download/v1.1.9/source-to-image-v1.1.9-db2b4645-linux-amd64.tar.gz
 - pushd $HOME/bin && tar xvfz $HOME/s2i.tar.gz && popd
 script:
-- mvn clean package -Popenshift -DskipTests
 - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH
   ; fi`
-- ${HOME}/bin/s2i . registry.access.redhat.com/jboss-eap-7/eap71-openshift $IMAGE_NAME:$TAG
-- sleep 30 #Wait for the image to be available
-- docker images
-- docker push $IMAGE_NAME:$TAG
+- echo http://github.com/${TRAVIS_REPO_SLUG}.git #${HOME}/bin/s2i  registry.access.redhat.com/jboss-eap-7/eap71-openshift $IMAGE_NAME:$TAG
+- echo docker images
+- echo docker push $IMAGE_NAME:$TAG
