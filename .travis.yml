@@ -17,7 +17,7 @@ before_install:
 script:
 - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH
   ; fi`
-- ${HOME}/bin/s2i http://github.com/${TRAVIS_REPO_SLUG}.git registry.access.redhat.com/jboss-eap-7/eap71-openshift $IMAGE_NAME:$TAG
+- ${HOME}/bin/s2i build http://github.com/${TRAVIS_REPO_SLUG}.git registry.access.redhat.com/jboss-eap-7/eap71-openshift $IMAGE_NAME:$TAG
 - sleep 30
 - docker images
 - docker push $IMAGE_NAME:$TAG
