@@ -1,0 +1,17 @@
+cache:
+  directories:
+  - $HOME/.m2
+
+language: java
+
+jdk:
+  - oraclejdk8
+
+before_install:
+  - cp .travis.settings.xml $HOME/.m2/settings.xml
+  - curl -sL -o $HOME/s2i.tar.gz https://github.com/openshift/source-to-image/releases/download/v1.1.9/source-to-image-v1.1.9-db2b4645-linux-amd64.tar.gz 
+  - pushd $HOME/bin && tar xvfz $HOME/s2i.tar.gz && popd
+
+script:
+  - mvn clean package -Popenshift -DskipTests
+  
